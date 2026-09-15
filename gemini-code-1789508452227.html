@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABREU STORE | Sua Loja Oficial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .top-bar {
+            background-color: #ffffff;
+            color: #000;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        header {
+            background-color: #000000;
+            padding: 12px 20px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+
+        .header-brand-name {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #ffffff;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 260px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #222;
+            border-radius: 4px;
+            padding: 10px 15px;
+            width: 100%;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #262626;
+            transition: background 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #2c2c2c;
+        }
+
+        .suggestion-thumb {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #aaa;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .suggestion-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .suggestion-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .suggestion-title {
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .suggestion-price {
+            font-size: 12px;
+            color: #888;
+            font-weight: bold;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            grid-column: 2;
+        }
+
+        .logo-img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            transition: filter 0.3s ease;
+        }
+
+        .logo-img:hover {
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.9));
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            align-items: center;
+            justify-content: flex-end;
+            grid-column: 3;
+        }
+
+        .header-btn {
+            cursor: pointer;
+            transition: color 0.2s;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-btn:hover {
+            color: #aaa;
+        }
+
+        .header-icon-svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        nav {
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #222;
+            position: relative;
+            z-index: 998;
+        }
+
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 5px 0;
+            user-select: none;
+        }
+
+        .dropdown-btn:hover {
+            color: #cccccc;
+        }
+
+        .category-sub-bar {
+            background-color: #080808;
+            border-bottom: 1px solid #222;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 0 20px;
+            box-shadow: inset 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .category-sub-bar.open {
+            max-height: 80px;
+            padding: 15px 20px;
+        }
+
+        .cat-bar-item {
+            font-size: 13px;
+            font-weight: 600;
+            color: #cccccc;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .cat-bar-item:hover {
+            background-color: #222222;
+            color: #ffffff;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ccc;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #222, #000);
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 2px solid #ffffff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-banner h1 {
+            font-size: 28px;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffffff;
+            padding-left: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background-color: #1a1a1a;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #222;
+            position: relative;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffffff;
+        }
+
+        .product-card.highlight {
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 3px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 13px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 13px;
+            color: #ddd;
+            margin-bottom: 8px;
+            height: 38px;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        .product-price-old {
+            font-size: 11px;
+            color: #888;
+            text-decoration: line-through;
+        }
+
+        .product-price-current {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .product-installments {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            text-align: center;
+            transition: opacity 0.2s, background 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-view {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .btn-view:hover {
+            background-color: #dddddd;
+        }
+
+        #no-results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        #about-section, #privacy-section, #returns-section {
+            display: none;
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 40vh;
+        }
+
+        .about-title, .privacy-title, .returns-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        .about-text, .privacy-text, .returns-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #cccccc;
+        }
+
+        .privacy-text h3, .returns-text h3 {
+            color: #ffffff;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .returns-text ul, .returns-text ol {
+            margin-left: 20px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+        }
+
+        .returns-text li {
+            margin-bottom: 6px;
+        }
+
+        #product-detail-section {
+            display: none;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .btn-back-store {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .breadcrumb { font-size: 12px; color: #888; margin-bottom: 20px; }
+        .breadcrumb a { color: #aaa; text-decoration: none; }
+        .breadcrumb a:hover { color: #fff; }
+
+        .product-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .gallery-container { display: flex; gap: 15px; }
+        .thumbnails { display: flex; flex-direction: column; gap: 10px; }
+        .thumb { width: 60px; height: 75px; background-color: #222; border: 1px solid #333; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #666; border-radius: 4px; overflow: hidden; }
+        .thumb.active, .thumb:hover { border-color: #fff; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .main-image { flex: 1; height: 450px; background-color: #1a1a1a; border: 1px solid #222; border-radius: 6px; position: relative; display: flex; align-items: center; justify-content: center; color: #555; overflow: hidden; }
+        .main-image img { width: 100%; height: 100%; object-fit: contain; }
+        .badge-disc { position: absolute; top: 15px; left: 15px; background-color: #25D366; color: #000; padding: 4px 8px; font-size: 12px; font-weight: bold; border-radius: 4px; z-index: 2; }
+
+        .product-details { display: flex; flex-direction: column; gap: 15px; }
+        .tag-lancamento { background-color: #ffffff; color: #000; padding: 3px 8px; font-size: 10px; font-weight: bold; width: fit-content; border-radius: 2px; letter-spacing: 1px; }
+        .p-title { font-size: 22px; font-weight: bold; line-height: 1.3; }
+        .p-brand { font-size: 13px; color: #888; }
+        
+        .p-size-title { font-size: 12px; color: #aaa; margin-top: 10px; }
+        .p-sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
+        .size-box { border: 1px solid #333; background-color: #1a1a1a; color: #fff; padding: 10px 16px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .size-box:hover, .size-box.selected { border-color: #fff; background-color: #ffffff; color: #000; font-weight: bold; }
+
+        .price-box { margin-top: 15px; border-top: 1px solid #222; padding-top: 15px; }
+        .price-old { text-decoration: line-through; color: #777; font-size: 13px; }
+        .price-main { font-size: 26px; font-weight: bold; color: #fff; margin: 4px 0; }
+        .price-pix { color: #25D366; font-size: 14px; font-weight: bold; }
+        .price-installments { color: #aaa; font-size: 12px; }
+
+        .buy-row { display: flex; gap: 10px; margin-top: 15px; }
+        .qty-box { display: flex; border: 1px solid #333; border-radius: 4px; overflow: hidden; }
+        .qty-btn { background: #222; border: none; color: #fff; width: 40px; height: 48px; cursor: pointer; font-size: 18px; }
+        .qty-input { width: 40px; height: 48px; background: #1a1a1a; border: none; color: #fff; text-align: center; font-size: 14px; outline: none; }
+        
+        .btn-wsp-buy { flex: 1; background-color: #ffffff; color: #000; border: none; font-weight: bold; font-size: 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.2s; height: 48px; }
+        .btn-wsp-buy:hover { background-color: #dddddd; }
+
+        .frete-card { background-color: #1a1a1a; border: 1px solid #222; padding: 15px; border-radius: 6px; margin-top: 10px; }
+        .frete-title { font-size: 12px; color: #aaa; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .frete-form { display: flex; gap: 8px; }
+        .frete-input { background: #262626; border: 1px solid #333; padding: 10px 12px; border-radius: 4px; color: #fff; outline: none; flex: 1; font-size: 13px; }
+        .frete-btn { background-color: #000000; border: 1px solid #444; color: #fff; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .frete-resultado { margin-top: 12px; font-size: 12px; color: #ddd; }
+        .frete-item { margin-top: 6px; padding: 8px; background-color: #222; border-radius: 4px; border-left: 3px solid #25D366; }
+
+        .related-section {
+            margin-top: 50px;
+            border-top: 1px solid #222;
+            padding-top: 30px;
+        }
+
+        .related-title-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .related-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            border-left: 4px solid #fff;
+            padding-left: 10px;
+        }
+
+        .related-nav-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .related-nav-btn {
+            background-color: #222;
+            border: 1px solid #444;
+            color: #fff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .related-nav-btn:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .related-carousel-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .related-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.4s ease-in-out;
+            will-change: transform;
+        }
+
+        .related-card {
+            min-width: 230px;
+            flex: 0 0 calc(25% - 15px);
+            background-color: #1a1a1a;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #222;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            border-color: #fff;
+        }
+
+        .related-card .product-image {
+            height: 180px;
+        }
+
+        .related-card .product-info {
+            padding: 12px;
+        }
+
+        .info-tabs-container { margin-top: 40px; }
+        .tabs-header { display: flex; border-bottom: 1px solid #222; gap: 20px; }
+        .tab-btn { background: none; border: none; color: #888; font-size: 14px; font-weight: bold; padding: 10px 0; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+        .tab-content { padding: 20px 0; font-size: 13px; color: #aaa; line-height: 1.6; }
+
+        .features-section {
+            background-color: #000000;
+            padding: 40px 15px;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+            margin-top: 40px;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 25px;
+            text-align: center;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon-svg {
+            width: 40px;
+            height: 40px;
+            fill: #ffffff;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .feature-desc {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .form-group input {
+            background-color: #262626;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .btn-submit {
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #0b0b0b;
+            color: #aaa;
+            padding: 30px 15px 20px;
+            border-top: 1px solid #222;
+            font-size: 13px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-column h3 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-column ul li a {
+            cursor: pointer;
+        }
+
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 15px;
+            color: #666;
+            font-size: 11px;
+        }
+
+        @media (max-width: 900px) {
+            header {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+                gap: 10px;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .search-container {
+                max-width: 100%;
+            }
+
+            .logo-container {
+                grid-column: 1;
+                justify-content: center;
+            }
+
+            .header-actions {
+                grid-column: 1;
+                justify-content: center;
+            }
+
+            nav {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 10px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .related-card {
+                min-width: 170px;
+                flex: 0 0 calc(50% - 10px);
+            }
+
+            .product-container { grid-template-columns: 1fr; gap: 20px; }
+            .gallery-container { flex-direction: column-reverse; }
+            .thumbnails { flex-direction: row; }
+            .thumb { width: 50px; height: 60px; }
+            .main-image { height: 320px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        GANHE 4% DE DESCONTO NO PIX! | PARCELE EM ATÉ 3X SEM JUROS!
+    </div>
+
+    <header>
+        <div class="header-left">
+            <div class="header-brand-name" onclick="filterCategory('all')">
+                Abreu Store
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="O que deseja procurar?" autocomplete="off">
+                </div>
+                <div id="search-suggestions" class="search-suggestions"></div>
+            </div>
+        </div>
+
+        <div class="logo-container" onclick="filterCategory('all')">
+            <img src="https://i.ibb.co/s9JnWNYD/Chat-GPT-Image-15-de-set-de-2026-17-24-23.png" alt="ABREU STORE" class="logo-img">
+        </div>
+
+        <div class="header-actions">
+            <a href="https://wa.me/5541995652315" target="_blank" class="header-btn">
+                <svg class="header-icon-svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                Atendimento
+            </a>
+            <span class="header-btn" onclick="openAuthModal()">
+                <svg class="header-icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                <span id="user-display">Conta</span>
+            </span>
+        </div>
+    </header>
+
+    <nav id="main-nav">
+        <div class="dropdown-wrapper" id="cat-wrapper">
+            <div class="dropdown-btn" id="cat-toggle-btn">
+                <span>☰</span> Categorias
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" class="nav-link" onclick="filterCategory('all')">Tudo</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="filterCategory('Camisetas')">Camisetas</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="filterCategory('Bermudas')">Bermudas</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="filterCategory('Calças')">Calças</a>
+    </nav>
+
+    <div class="category-sub-bar" id="category-sub-bar">
+        <span class="cat-bar-item" onclick="filterCategory('Camisetas')">Camisetas</span>
+        <span class="cat-bar-item" onclick="filterCategory('Bermudas')">Bermudas</span>
+        <span class="cat-bar-item" onclick="filterCategory('Calças')">Calças</span>
+    </div>
+
+    <section class="hero-banner" id="hero-banner">
+        <h1 id="banner-title">SEJA BEM-VINDO À ABREU STORE</h1>
+    </section>
+
+    <section id="about-section">
+        <h1 class="about-title">Sobre a Abreu Store</h1>
+        <p class="about-text">
+            A Abreu Store é especializada em vestuário masculino, oferecendo camisetas, bermudas e calças de qualidade com design moderno e caimento impecável.<br><br>
+            Entregamos para todo o Brasil com envios seguros via Correios (PAC e SEDEX). Para garantir total comodidade, oferecemos condições de pagamento facilitadas: parcelamento em até 3x sem juros no cartão de crédito ou 4% de desconto exclusivo para pagamentos via Pix.
+        </p>
+    </section>
+
+    <section id="privacy-section">
+        <h1 class="privacy-title">Política de Privacidade e Dados</h1>
+        <div class="privacy-text">
+            <p>
+                Na <strong>Abreu Store</strong>, levamos a sua privacidade e a segurança das suas informações extremamente a sério. Queremos que você se sinta totalmente seguro ao navegar pelo nosso site, criar a sua conta ou realizar as suas compras.
+            </p>
+            <h3>1. Quais informações coletamos e por quê?</h3>
+            <p>
+                Nós coletamos apenas o essencial para que a sua experiência de compra funcione perfeitamente. Quando você cria uma conta ou simula um atendimento, podemos solicitar dados básicos como seu <strong>nome, e-mail, telefone/WhatsApp e endereço de entrega</strong>.
+            </p>
+            <h3>2. Segurança e Proteção das Informações</h3>
+            <p>
+                Os seus dados pessoais são tratados com total sigilo. Nós não vendemos, alugamos ou repassamos nenhuma informação pessoal dos nossos clientes para terceiros sob hipótese alguma.
+            </p>
+        </div>
+    </section>
+
+    <section id="returns-section">
+        <h1 class="returns-title">Trocas e Devoluções</h1>
+        <div class="returns-text">
+            <p>
+                Queremos que você ame a sua experiência na <strong>Abreu Store</strong>! Sabemos que às vezes uma peça pode não servir perfeitamente ou não ser exatamente o que você esperava.
+            </p>
+            <h3>1. Prazos para Troca ou Arrependimento</h3>
+            <p>
+                De acordo com o Código de Defesa do Consumidor, você tem até <strong>7 dias corridos</strong> após o recebimento do seu pedido para solicitar a devolução e até <strong>30 dias corridos</strong> para trocas de tamanho ou modelo.
+            </p>
+        </div>
+    </section>
+
+    <section id="product-detail-section"></section>
+
+    <div class="container" id="main-products-container">
+        <div id="no-results">Nenhum produto encontrado.</div>
+
+        <div class="section-block" data-category-block="Camisetas">
+            <h2 class="section-title">Camisetas</h2>
+            <div class="product-grid">
+                <div class="product-card" id="prod-1" 
+                     data-brand="Zanon Basic" 
+                     data-category="Camisetas" 
+                     data-title="Camisa Slim Fit Azul Marinho Zanon Basic" 
+                     data-price-old="179.99" 
+                     data-price-current="109.99" 
+                     data-discount="-38%" 
+                     data-img1="https://i.ibb.co/JwwHHWc2/4990504088604708718.jpg" 
+                     data-img2="https://i.ibb.co/VcBF4pNR/4990504088604708719.jpg" 
+                     data-img3="https://i.ibb.co/qLSqxV92/4990504088604708720.jpg" 
+                     onclick="openProductPage('prod-1')">
+                    <span class="discount-badge">-38%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/JwwHHWc2/4990504088604708718.jpg" alt="Camisa Slim Fit Azul Marinho Zanon Basic">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Camisa Slim Fit Azul Marinho Zanon Basic</div>
+                        <div class="product-price-old">R$ 179,99</div>
+                        <div class="product-price-current">R$ 109,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 36,66 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" id="prod-2" 
+                     data-brand="BMW Original" 
+                     data-category="Camisetas" 
+                     data-title="Camisa Polo BMW Preta / Linhas Brancas Original" 
+                     data-price-old="399.99" 
+                     data-price-current="369.99" 
+                     data-discount="-7%" 
+                     data-img1="https://i.ibb.co/68Xw4xH/bmw-polo-1.jpg" 
+                     onclick="openProductPage('prod-2')">
+                    <span class="discount-badge">-7%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/68Xw4xH/bmw-polo-1.jpg" alt="Camisa Polo BMW Preta">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Camisa Polo BMW Preta / Linhas Brancas Original</div>
+                        <div class="product-price-old">R$ 399,99</div>
+                        <div class="product-price-current">R$ 369,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 123,33 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block" data-category-block="Bermudas">
+            <h2 class="section-title">Bermudas</h2>
+            <div class="product-grid">
+                <div class="product-card" id="prod-3" 
+                     data-brand="City Denim" 
+                     data-category="Bermudas" 
+                     data-title="Bermuda City Denim Cinza com Grandes Rasgos" 
+                     data-price-old="179.99" 
+                     data-price-current="149.99" 
+                     data-discount="-17%" 
+                     data-img1="https://i.ibb.co/3s65R5v/bermuda-cinza-1.jpg" 
+                     onclick="openProductPage('prod-3')">
+                    <span class="discount-badge">-17%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/3s65R5v/bermuda-cinza-1.jpg" alt="Bermuda City Denim Cinza com Grandes Rasgos">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Bermuda City Denim Cinza com Grandes Rasgos</div>
+                        <div class="product-price-old">R$ 179,99</div>
+                        <div class="product-price-current">R$ 149,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 49,99 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" id="prod-4" 
+                     data-brand="City Denim" 
+                     data-category="Bermudas" 
+                     data-title="Bermuda City Denim Cinza Sem Rasgos Desfiados" 
+                     data-price-old="179.99" 
+                     data-price-current="149.99" 
+                     data-discount="-17%" 
+                     data-img1="https://i.ibb.co/8D9YwzW/bermuda-cinza-2.jpg" 
+                     onclick="openProductPage('prod-4')">
+                    <span class="discount-badge">-17%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/8D9YwzW/bermuda-cinza-2.jpg" alt="Bermuda City Denim Cinza Sem Rasgos Desfiados">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Bermuda City Denim Cinza Sem Rasgos Desfiados</div>
+                        <div class="product-price-old">R$ 179,99</div>
+                        <div class="product-price-current">R$ 149,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 49,99 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block" data-category-block="Calças">
+            <h2 class="section-title">Calças</h2>
+            <div class="product-grid">
+                <div class="product-card" id="prod-5" 
+                     data-brand="Brow Jeans" 
+                     data-category="Calças" 
+                     data-title="Calça Jogador Brow Jeans Bern Escura Com rasgos" 
+                     data-price-old="299.99" 
+                     data-price-current="189.99" 
+                     data-discount="-34%" 
+                     data-img1="https://i.ibb.co/5XZX8zX/calca-escura-1.jpg" 
+                     onclick="openProductPage('prod-5')">
+                    <span class="discount-badge">-34%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/5XZX8zX/calca-escura-1.jpg" alt="Calça Jogador Brow Jeans Bern Escura Com rasgos">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Calça Jogador Brow Jeans Bern Escura Com rasgos</div>
+                        <div class="product-price-old">R$ 299,99</div>
+                        <div class="product-price-current">R$ 189,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 63,33 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" id="prod-6" 
+                     data-brand="Brow Jeans" 
+                     data-category="Calças" 
+                     data-title="Calça Jogador Brow Jeans Cinza Forte Com Rasgos" 
+                     data-price-old="299.99" 
+                     data-price-current="189.99" 
+                     data-discount="-34%" 
+                     data-img1="https://i.ibb.co/7XWz123/calca-cinza-1.jpg" 
+                     onclick="openProductPage('prod-6')">
+                    <span class="discount-badge">-34%</span>
+                    <div class="product-image">
+                        <img src="https://i.ibb.co/7XWz123/calca-cinza-1.jpg" alt="Calça Jogador Brow Jeans Cinza Forte Com Rasgos">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Calça Jogador Brow Jeans Cinza Forte Com Rasgos</div>
+                        <div class="product-price-old">R$ 299,99</div>
+                        <div class="product-price-current">R$ 189,99 à vista</div>
+                        <div class="product-installments">ou em até 3x de R$ 63,33 sem juros</div>
+                        <div class="btn-group">
+                            <button class="btn-buy btn-view">Visualizar Produto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <div class="features-grid">
+            <div class="feature-item">
+                <svg class="feature-icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                <div class="feature-title">Parcelamento</div>
+                <div class="feature-desc">Em até 3x Sem Juros</div>
+            </div>
+            <div class="feature-item">
+                <svg class="feature-icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <div class="feature-title">Envios</div>
+                <div class="feature-desc">Enviamos para todo Brasil</div>
+            </div>
+            <div class="feature-item">
+                <svg class="feature-icon-svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <div class="feature-title">Atendimento</div>
+                <div class="feature-desc">via WhatsApp</div>
+            </div>
+            <div class="feature-item">
+                <svg class="feature-icon-svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <div class="feature-title">Site 100% Seguro</div>
+                <div class="feature-desc">Selo de segurança</div>
+            </div>
+            <div class="feature-item">
+                <svg class="feature-icon-svg" viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+                <div class="feature-title">Desconto de 4%</div>
+                <div class="feature-desc">Em Compras Via Pix</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Entrar</button>
+                <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Criar Conta</button>
+            </div>
+            <form class="auth-form" id="form-login" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="login-email" placeholder="seuemail@exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">Entrar na Conta</button>
+            </form>
+            <form class="auth-form" id="form-register" style="display: none;" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="reg-name" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="reg-email" placeholder="seuemail@exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone / WhatsApp</label>
+                    <input type="tel" id="reg-phone" placeholder="(00) 00000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label>Crie uma Senha</label>
+                    <input type="password" id="reg-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">Criar minha Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>ABREU STORE</h3>
+                <p>Enviamos para todo o Brasil com segurança e rapidez.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Categorias</h3>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="filterCategory('all')">Tudo</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterCategory('Camisetas')">Camisetas</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterCategory('Bermudas')">Bermudas</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterCategory('Calças')">Calças</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Institucional</h3>
+                <ul>
+                    <li><a onclick="showAboutPage()">Sobre a Abreu Store</a></li>
+                    <li><a onclick="showPrivacyPage()">Política de Privacidade</a></li>
+                    <li><a onclick="showReturnsPage()">Trocas e Devoluções</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Atendimento</h3>
+                <p>WhatsApp: +55 41 995652315</p>
+                <p>E-mail: contato@abreustore.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>ABREU STORE - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentSize = '';
+        let currentTitle = '';
+        let isManuallyOpened = false;
+
+        const subBar = document.getElementById('category-sub-bar');
+        const catWrapper = document.getElementById('cat-wrapper');
+
+        function openSubBar() {
+            subBar.classList.add('open');
+        }
+
+        function closeSubBar() {
+            if (!isManuallyOpened) {
+                subBar.classList.remove('open');
+            }
+        }
+
+        catWrapper.addEventListener('mouseenter', () => { openSubBar(); });
+        subBar.addEventListener('mouseenter', () => { openSubBar(); });
+
+        catWrapper.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                if (!catWrapper.matches(':hover') && !subBar.matches(':hover')) {
+                    closeSubBar();
+                }
+            }, 200);
+        });
+
+        subBar.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                if (!catWrapper.matches(':hover') && !subBar.matches(':hover')) {
+                    closeSubBar();
+                }
+            }, 200);
+        });
+
+        catWrapper.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isManuallyOpened = !isManuallyOpened;
+            subBar.classList.toggle('open', isManuallyOpened);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!catWrapper.contains(e.target) && !subBar.contains(e.target)) {
+                isManuallyOpened = false;
+                subBar.classList.remove('open');
+            }
+        });
+
+        function filterCategory(category) {
+            showMainPage();
+            isManuallyOpened = false;
+            subBar.classList.remove('open');
+            
+            const bannerTitle = document.getElementById('banner-title');
+            const blocks = document.querySelectorAll('.section-block');
+            const cards = document.querySelectorAll('.product-card');
+            
+            searchInput.value = '';
+            noResults.style.display = 'none';
+
+            if (category === 'all') {
+                bannerTitle.textContent = 'SEJA BEM-VINDO À ABREU STORE';
+                blocks.forEach(block => block.style.display = 'block');
+                cards.forEach(card => card.style.display = 'flex');
+            } else {
+                bannerTitle.textContent = category.toUpperCase();
+                blocks.forEach(block => {
+                    if (block.getAttribute('data-category-block') === category) {
+                        block.style.display = 'block';
+                    } else {
+                        block.style.display = 'none';
+                    }
+                });
+                cards.forEach(card => card.style.display = 'flex');
+            }
+        }
+
+        function showAboutPage() {
+            document.getElementById('hero-banner').style.display = 'none';
+            document.getElementById('main-products-container').style.display = 'none';
+            document.getElementById('product-detail-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'none';
+            document.getElementById('returns-section').style.display = 'none';
+            document.getElementById('about-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showPrivacyPage() {
+            document.getElementById('hero-banner').style.display = 'none';
+            document.getElementById('main-products-container').style.display = 'none';
+            document.getElementById('product-detail-section').style.display = 'none';
+            document.getElementById('about-section').style.display = 'none';
+            document.getElementById('returns-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showReturnsPage() {
+            document.getElementById('hero-banner').style.display = 'none';
+            document.getElementById('main-products-container').style.display = 'none';
+            document.getElementById('product-detail-section').style.display = 'none';
+            document.getElementById('about-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'none';
+            document.getElementById('returns-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showMainPage() {
+            document.getElementById('hero-banner').style.display = 'block';
+            document.getElementById('main-products-container').style.display = 'block';
+            document.getElementById('about-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'none';
+            document.getElementById('returns-section').style.display = 'none';
+            document.getElementById('product-detail-section').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changeMainImage(src, element) {
+            if (!src) return;
+            const mainImg = document.getElementById('main-product-img');
+            if (mainImg) mainImg.src = src;
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            if (element) element.classList.add('active');
+        }
+
+        function openProductPage(productId) {
+            const card = document.getElementById(productId);
+            const title = card.getAttribute('data-title');
+            const brand = card.getAttribute('data-brand');
+            const category = card.getAttribute('data-category');
+            const priceOld = parseFloat(card.getAttribute('data-price-old')).toFixed(2).replace('.', ',');
+            const priceCurrentVal = parseFloat(card.getAttribute('data-price-current'));
+            const priceCurrent = priceCurrentVal.toFixed(2).replace('.', ',');
+            const discount = card.getAttribute('data-discount');
+            
+            const img1 = card.getAttribute('data-img1') || (card.querySelector('.product-image img') ? card.querySelector('.product-image img').src : '');
+            const img2 = card.getAttribute('data-img2');
+            const img3 = card.getAttribute('data-img3');
+
+            const pixPrice = (priceCurrentVal * 0.96).toFixed(2).replace('.', ',');
+            const installmentPrice = (priceCurrentVal / 3).toFixed(2).replace('.', ',');
+
+            currentTitle = title;
+            currentSize = '';
+
+            document.getElementById('hero-banner').style.display = 'none';
+            document.getElementById('main-products-container').style.display = 'none';
+            document.getElementById('about-section').style.display = 'none';
+            document.getElementById('privacy-section').style.display = 'none';
+            document.getElementById('returns-section').style.display = 'none';
+
+            const detailSec = document.getElementById('product-detail-section');
+            detailSec.style.display = 'block';
+
+            let thumbnailsHTML = '';
+            if (img1) thumbnailsHTML += `<div class="thumb active" onclick="changeMainImage('${img1}', this)"><img src="${img1}" alt="Foto 1"></div>`;
+            if (img2 && img2 !== img1) thumbnailsHTML += `<div class="thumb" onclick="changeMainImage('${img2}', this)"><img src="${img2}" alt="Foto 2"></div>`;
+            if (img3 && img3 !== img1 && img3 !== img2) thumbnailsHTML += `<div class="thumb" onclick="changeMainImage('${img3}', this)"><img src="${img3}" alt="Foto 3"></div>`;
+
+            const allCards = document.querySelectorAll('.product-card');
+            let relatedCardsHTML = '';
+            allCards.forEach(c => {
+                if(c.id !== productId) {
+                    const cTitle = c.getAttribute('data-title');
+                    const cPrice = c.querySelector('.product-price-current').textContent;
+                    const cImg = c.querySelector('.product-image img') ? c.querySelector('.product-image img').src : '';
+                    const cId = c.id;
+                    const cDisc = c.getAttribute('data-discount');
+                    
+                    relatedCardsHTML += `
+                        <div class="related-card" onclick="openProductPage('${cId}')">
+                            <div class="product-image">
+                                ${cDisc ? `<span class="discount-badge" style="font-size: 9px; padding: 2px 5px;">${cDisc}</span>` : ''}
+                                ${cImg ? `<img src="${cImg}" alt="${cTitle}">` : 'Foto Produto'}
+                            </div>
+                            <div class="product-info">
+                                <div class="product-title" style="height: 32px; font-size: 12px;">${cTitle}</div>
+                                <div class="product-price-current" style="font-size: 14px; margin-top: 5px;">${cPrice}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            detailSec.innerHTML = `
+                <button class="btn-back-store" onclick="showMainPage()">← Voltar para a loja</button>
+                
+                <div class="breadcrumb">
+                    <a href="javascript:void(0)" onclick="showMainPage()">Home</a> / ${category} / ${title}
+                </div>
+
+                <div class="product-container">
+                    <div class="gallery-container">
+                        <div class="thumbnails">
+                            ${thumbnailsHTML}
+                        </div>
+                        <div class="main-image">
+                            ${discount ? `<span class="badge-disc">${discount}</span>` : ''}
+                            <img id="main-product-img" src="${img1}" alt="${title}">
+                        </div>
+                    </div>
+
+                    <div class="product-details">
+                        <span class="tag-lancamento">LANÇAMENTO</span>
+                        <h1 class="p-title">${title}</h1>
+                        <span class="p-brand">Marca: ${brand}</span>
+
+                        <span class="p-size-title">Tamanhos:</span>
+                        <div class="p-sizes">
+                            <button class="size-box" onclick="setSelectSize(this)">36</button>
+                            <button class="size-box" onclick="setSelectSize(this)">38</button>
+                            <button class="size-box" onclick="setSelectSize(this)">40</button>
+                            <button class="size-box" onclick="setSelectSize(this)">42</button>
+                            <button class="size-box" onclick="setSelectSize(this)">44</button>
+                            <button class="size-box" onclick="setSelectSize(this)">46</button>
+                        </div>
+
+                        <div class="price-box">
+                            <div class="price-old">de R$ ${priceOld}</div>
+                            <div class="price-main">R$ ${priceCurrent}</div>
+                            <div class="price-pix">R$ ${pixPrice} à vista no Pix</div>
+                            <div class="price-installments">ou em até 3x de R$ ${installmentPrice} sem juros</div>
+                        </div>
+
+                        <div class="buy-row">
+                            <div class="qty-box">
+                                <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                                <input type="text" id="p-qty" class="qty-input" value="1" readonly>
+                                <button class="qty-btn" onclick="changeQty(1)">+</button>
+                            </div>
+                            <a id="btn-wsp-target" href="https://wa.me/5541995652315?text=Olá,%20tenho%20interesse%20em%20comprar%20o%20produto:%20${encodeURIComponent(title)}" target="_blank" class="btn-wsp-buy">
+                                COMPRAR VIA WHATSAPP
+                            </a>
+                        </div>
+
+                        <div class="frete-card">
+                            <div class="frete-title">🚚 Frete e prazo de entrega (Correios)</div>
+                            <div class="frete-form">
+                                <input type="text" id="cep-input" class="frete-input" placeholder="Informe seu CEP (ex: 01001-000)" maxlength="9">
+                                <button class="frete-btn" onclick="calcularFreteCorreios()">CALCULAR</button>
+                            </div>
+                            <div id="frete-resultado" class="frete-resultado"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="related-section">
+                    <div class="related-title-wrapper">
+                        <div class="related-title">Produtos Relacionados</div>
+                        <div class="related-nav-btns">
+                            <button class="related-nav-btn" onclick="scrollRelated(-1)">&#10094;</button>
+                            <button class="related-nav-btn" onclick="scrollRelated(1)">&#10095;</button>
+                        </div>
+                    </div>
+                    <div class="related-carousel-container">
+                        <div class="related-track" id="related-track">
+                            ${relatedCardsHTML}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" onclick="showTabContent('desc', this, '${brand}')">Descrição Geral</button>
+                        <button class="tab-btn" onclick="showTabContent('garantia', this, '${brand}')">Garantia</button>
+                        <button class="tab-btn" onclick="showTabContent('pagamento', this, '${brand}')">Formas de Pagamento</button>
+                    </div>
+                    <div class="tab-content" id="tab-info-text">
+                        Produto de altíssima qualidade da marca ${brand}. Confeccionado com tecidos selecionados para proporcionar máximo conforto, ajuste moderno e alta durabilidade no dia a dia.
+                    </div>
+                </div>
+            `;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        let currentSlideIndex = 0;
+        function scrollRelated(direction) {
+            const track = document.getElementById('related-track');
+            if (!track) return;
+            const cards = track.querySelectorAll('.related-card');
+            if (cards.length === 0) return;
+
+            const cardWidth = cards[0].offsetWidth + 20;
+            currentSlideIndex += direction;
+            
+            const maxIndex = Math.max(0, cards.length - 4);
+            if (currentSlideIndex < 0) currentSlideIndex = 0;
+            if (currentSlideIndex > maxIndex) currentSlideIndex = maxIndex;
+
+            track.style.transform = `translateX(-${currentSlideIndex * cardWidth}px)`;
+        }
+
+        function setSelectSize(btn) {
+            document.querySelectorAll('.size-box').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentSize = btn.textContent;
+            updateWspLink();
+        }
+
+        function changeQty(val) {
+            const qtyInput = document.getElementById('p-qty');
+            let current = parseInt(qtyInput.value) + val;
+            if(current < 1) current = 1;
+            qtyInput.value = current;
+            updateWspLink();
+        }
+
+        function updateWspLink() {
+            const qty = document.getElementById('p-qty').value;
+            let msg = `Olá, tenho interesse em comprar o produto: ${currentTitle}`;
+            if(currentSize) msg += ` | Tamanho: ${currentSize}`;
+            msg += ` | Quantidade: ${qty}`;
+            
+            document.getElementById('btn-wsp-target').href = `https://wa.me/5541995652315?text=${encodeURIComponent(msg)}`;
+        }
+
+        function showTabContent(type, btn, brand) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const infoText = document.getElementById('tab-info-text');
+
+            if(type === 'desc') {
+                infoText.textContent = `Produto de altíssima qualidade da marca ${brand}. Confeccionado com tecidos selecionados para proporcionar máximo conforto, ajuste moderno e alta durabilidade no dia a dia.`;
+            } else if(type === 'garantia') {
+                infoText.textContent = "30 dias após o recebimento do produto. Todas as garantias são dadas pelos fabricantes e variam de produto para produto.";
+            } else if(type === 'pagamento') {
+                infoText.textContent = "Aceitamos pagamentos à vista via PIX (com 4% de desconto) ou parcelado em até 3x sem juros no cartão de crédito.";
+            }
+        }
+
+        async function calcularFreteCorreios() {
+            const cepDestino = document.getElementById('cep-input').value.replace(/\D/g, '');
+            const resDiv = document.getElementById('frete-resultado');
+
+            if (cepDestino.length !== 8) {
+                resDiv.textContent = 'Por favor, informe um CEP válido com 8 dígitos.';
+                return;
+            }
+
+            resDiv.textContent = 'Calculando frete...';
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cepDestino}/json/`);
+                const dados = await response.json();
+
+                if (dados.erro) {
+                    resDiv.textContent = 'CEP não encontrado.';
+                    return;
+                }
+
+                let valorPAC = 18.50;
+                let prazoPAC = 5;
+                let valorSEDEX = 32.00;
+                let prazoSEDEX = 2;
+
+                if (dados.uf === 'PR' && dados.localidade === 'Curitiba') {
+                    valorPAC = 12.00;
+                    prazoPAC = 2;
+                    valorSEDEX = 18.00;
+                    prazoSEDEX = 1;
+                } else if (dados.uf !== 'PR') {
+                    valorPAC = 28.90;
+                    prazoPAC = 8;
+                    valorSEDEX = 54.00;
+                    prazoSEDEX = 3;
+                }
+
+                resDiv.innerHTML = `
+                    <div style="margin-top: 8px; margin-bottom: 8px; font-size: 11px; color: #aaa;">Destino: ${dados.localidade} - ${dados.uf}</div>
+                    <div class="frete-item">
+                        <strong>PAC (Correios)</strong><br>
+                        Valor: R$ ${valorPAC.toFixed(2).replace('.', ',')}<br>
+                        Prazo estimado: até ${prazoPAC} dias úteis
+                    </div>
+                    <div class="frete-item">
+                        <strong>SEDEX (Correios)</strong><br>
+                        Valor: R$ ${valorSEDEX.toFixed(2).replace('.', ',')}<br>
+                        Prazo estimado: até ${prazoSEDEX} dias úteis
+                    </div>
+                `;
+            } catch (err) {
+                resDiv.textContent = 'Erro ao consultar o CEP. Tente novamente.';
+            }
+        }
+
+        const authModal = document.getElementById('auth-modal');
+        const tabLogin = document.getElementById('tab-login');
+        const tabRegister = document.getElementById('tab-register');
+        const formLogin = document.getElementById('form-login');
+        const formRegister = document.getElementById('form-register');
+        const userDisplay = document.getElementById('user-display');
+
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+        }
+
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+        }
+
+        function switchTab(tab) {
+            if (tab === 'login') {
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+                formLogin.style.display = 'flex';
+                formRegister.style.display = 'none';
+            } else {
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+                formRegister.style.display = 'flex';
+                formLogin.style.display = 'none';
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const firstName = name.split(' ')[0];
+            alert(`Conta criada com sucesso! Bem-vindo(a), ${firstName}!`);
+            userDisplay.textContent = firstName;
+            closeAuthModal();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const userName = email.split('@')[0];
+            alert(`Login realizado com sucesso!`);
+            userDisplay.textContent = userName;
+            closeAuthModal();
+        }
+
+        const searchInput = document.getElementById('search-input');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const productCards = document.querySelectorAll('.product-card');
+        const sectionBlocks = document.querySelectorAll('.section-block');
+        const noResults = document.getElementById('no-results');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            searchSuggestions.innerHTML = '';
+
+            if (query === '') {
+                searchSuggestions.style.display = 'none';
+                filterPage(query);
+                return;
+            }
+
+            let matches = 0;
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').textContent;
+                const price = card.querySelector('.product-price-current').textContent;
+                const cardId = card.id;
+                const imgElement = card.querySelector('.product-image img');
+                const thumbHTML = imgElement ? `<img src="${imgElement.src}" alt="${title}">` : 'Foto';
+
+                if (title.toLowerCase().includes(query)) {
+                    matches++;
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.innerHTML = `
+                        <div class="suggestion-thumb">${thumbHTML}</div>
+                        <div class="suggestion-info">
+                            <span class="suggestion-title">${title}</span>
+                            <span class="suggestion-price">${price}</span>
+                        </div>
+                    `;
+
+                    item.addEventListener('click', function() {
+                        filterCategory('all');
+                        searchInput.value = title;
+                        searchSuggestions.style.display = 'none';
+                        filterPage(title.toLowerCase());
+                        
+                        const targetCard = document.getElementById(cardId);
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetCard.classList.add('highlight');
+                        setTimeout(() => targetCard.classList.remove('highlight'), 2000);
+                    });
+
+                    searchSuggestions.appendChild(item);
+                }
+            });
+
+            searchSuggestions.style.display = matches > 0 ? 'block' : 'none';
+            filterPage(query);
+        });
+
+        function filterPage(query) {
+            let totalFound = 0;
+            productCards.forEach(card => {
+                const title = card.querySelector('.product-title').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'flex';
+                    totalFound++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            sectionBlocks.forEach(section => {
+                const visibleCards = section.querySelectorAll('.product-card[style="display: flex;"], .product-card:not([style*="display: none"])');
+                section.style.display = (visibleCards.length === 0 && query !== '') ? 'none' : 'block';
+            });
+
+            noResults.style.display = (totalFound === 0 && query !== '') ? 'block' : 'none';
+        }
+
+        ['click', 'touchstart'].forEach(eventType => {
+            document.addEventListener(eventType, function(e) {
+                if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
